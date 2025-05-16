@@ -3,13 +3,13 @@ from resilient_python_cache import ResilientPythonCache, MongoConfig, ResilientD
 
 async def main():
     mongo_config = MongoConfig(
-        uri="mongodb+srv://harishgokul01:PMMemqOq8SPJFhkj@cluster0.rxtgmuk.mongodb.net/",
+        uri="xxxx",
         db_name="resdb-cache",
         collection_name="resdb-collection"
     )
         
     resilient_db_config = ResilientDBConfig(
-        base_url="resilientdb://crow.resilientdb.com",
+        base_url="resilientdb://localhost:18000",
         http_secure=True,
         ws_secure=True
     )
