@@ -1,15 +1,16 @@
 import asyncio
+import os
 from resilient_python_cache import ResilientPythonCache, MongoConfig, ResilientDBConfig
 
 async def main():
     mongo_config = MongoConfig(
-        uri="xxxx",
-        db_name="resdb-cache",
-        collection_name="resdb-collection"
+        uri=os.environ["MONGO_URL"],
+        db_name=os.environ["MONGO_DB"],
+        collection_name=os.environ["MONGO_COLLECTION"]
     )
         
     resilient_db_config = ResilientDBConfig(
-        base_url="resilientdb://localhost:18000",
+        base_url="resilientdb://crow.resilientdb.com",
         http_secure=True,
         ws_secure=True
     )
