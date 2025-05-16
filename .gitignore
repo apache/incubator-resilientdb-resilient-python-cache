@@ -155,4 +155,5 @@ local_settings.py
 # Ignore the virtual environment directory
 .resilient-python-cache-*/
 
+.history
 test_sync.py
