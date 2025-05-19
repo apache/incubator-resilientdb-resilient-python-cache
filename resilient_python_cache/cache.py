@@ -122,7 +122,7 @@ class ResilientPythonCache(AsyncIOEventEmitter):
                     url = f"{self.http_endpoint}/{min_seq}/{max_seq}"
                     logger.info(f"Checking for blocks from {min_seq} to {max_seq}")
                     response  = await client.get(url)
-                    logger.info("Response Status Code",response.status_code)
+                    logger.info(f"Response Status Code {response.status_code}")
                     if response.status_code != 200:
                         logger.error(f"Invalid response status from {url}: {response.status_code}")
                         blocks = None
