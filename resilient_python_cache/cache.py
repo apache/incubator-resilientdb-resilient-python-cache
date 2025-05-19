@@ -52,6 +52,7 @@ class ResilientPythonCache(AsyncIOEventEmitter):
         self.ws_task: Optional[asyncio.Task] = None
         self.is_closing: bool = False
         self.reconnect_attempts: int = 0
+        self.mongo_client = None
 
         self.initialize_endpoints()
 
@@ -120,8 +121,17 @@ class ResilientPythonCache(AsyncIOEventEmitter):
 
                     url = f"{self.http_endpoint}/{min_seq}/{max_seq}"
                     logger.info(f"Checking for blocks from {min_seq} to {max_seq}")
-                    response = await client.get(url)
-                    blocks = response.json()
+                    response  = await client.get(url)
+                    logger.info(f"Response Status Code {response.status_code}")
+                    if response.status_code != 200:
+                        logger.error(f"Invalid response status from {url}: {response.status_code}")
+                        blocks = None
+                    else:
+                        try:
+                            blocks = response.json()
+                        except Exception as e:
+                            logger.error(f"Invalid JSON response from {url}: {e}")
+                            blocks = None
 
                     if isinstance(blocks, list) and blocks:
                         self.current_block_number = max(block.get('id', 0) for block in blocks)
@@ -298,9 +308,13 @@ class ResilientPythonCache(AsyncIOEventEmitter):
                 except asyncio.CancelledError:
                     pass
 
-            await self.mongo_client.close()
-            logger.info("Closed MongoDB and WebSocket connections.")
-            self.emit('closed')
+            if self.mongo_client is not None:
+                self.mongo_client.close()    
+                logger.info("Closed MongoDB and WebSocket connections.")
+                self.emit('closed')
+            else:
+                logger.error("Mongo Client Object is None")
+                
         except Exception as e:
             logger.error("Error closing connections:")
             logger.error(e)
