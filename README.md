@@ -16,8 +16,8 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-
-⚠️ This repository is deprecated.
+**DEPRECATION NOTICE**
+This repository is deprecated.
 Active development now continues in the [ResilientDB Monorepo](https://github.com/apache/incubator-resilientdb).
 
 The Resilent Python Cache can be found at [ecosystem/cache/resilient-python-cache](https://github.com/apache/incubator-resilientdb/tree/master/ecosystem/cache/resilient-python-cache).
